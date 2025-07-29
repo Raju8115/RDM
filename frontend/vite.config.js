@@ -8,13 +8,13 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      input: '/Users/psandeep/Downloads/project 3/src/main.jsx', // Explicitly set the entry point
+      input: '/src/main.jsx', // Explicitly set the entry point
     },
   },
   server: {
     proxy: {
       '/api': {
-      target: 'http://localhost:8082', // <-- use your real backend URL
+      target: 'https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com', // <-- use your real backend URL
         changeOrigin: true,
         secure: false,
       }
