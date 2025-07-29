@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch('http://localhost:8082/api/user', {
+        const res = await fetch('https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/user', {
           credentials: 'include',
         });
 
@@ -51,7 +51,7 @@ function App() {
   // Redirect if unauthenticated
   useEffect(() => {
     if (user === null) {
-      window.location.href = 'http://localhost:8082/oauth2/authorization/appid';
+      window.location.href = 'https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/oauth2/authorization/appid';
     }
   }, [user]);
 
