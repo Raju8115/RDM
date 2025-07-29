@@ -1,0 +1,371 @@
+.professional-info {
+  padding: 2rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+  
+  .info-section {
+    margin-bottom: 3rem;
+    
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #161616;
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      
+      .add-skill-btn {
+        background-color: #0f62fe;
+        border-color: #0f62fe;
+        
+        &:hover {
+          background-color: #0043ce;
+          border-color: #0043ce;
+        }
+      }
+    }
+    
+    .professional-table,
+    .project-table,
+    .skills-table,
+    .badges-table {
+      .cds--data-table-header {
+        background-color: #e0e0e0;
+        
+        th {
+          background-color: #e0e0e0;
+          color: #161616;
+          font-weight: 600;
+          border-bottom: 1px solid #c6c6c6;
+          padding: 1rem;
+          font-size: 0.9rem;
+        }
+      }
+      
+      .cds--data-table tbody tr {
+        &:hover {
+          background-color: #f4f4f4;
+        }
+        
+        td {
+          border-bottom: 1px solid #e0e0e0;
+          padding: 1rem;
+          vertical-align: middle;
+          font-size: 0.9rem;
+        }
+      }
+      
+      .delete-btn {
+        color: #da1e28;
+        
+        &:hover {
+          background-color: #fef7f7;
+          color: #ba1b23;
+        }
+      }
+    }
+    
+    .add-skill-form {
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background-color: #f4f4f4;
+      border-radius: 8px;
+      
+      .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+      }
+    }
+    
+    .no-data {
+      color: #525252;
+      font-style: italic;
+      margin: 2rem 0;
+    }
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+    
+    .cds--btn--primary {
+      background-color: #0f62fe;
+      border-color: #0f62fe;
+      
+      &:hover {
+        background-color: #0043ce;
+        border-color: #0043ce;
+      }
+    }
+    
+    .cds--btn--secondary {
+      background-color: #393939;
+      border-color: #393939;
+      color: #ffffff;
+      
+      &:hover {
+        background-color: #262626;
+        border-color: #262626;
+      }
+    }
+  }
+}
+
+.professional-info-table-wrapper {
+  margin-bottom: 2rem;
+}
+
+.professional-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+
+  .cds--data-table-header {
+    background-color: #e0e0e0;
+    th {
+      background-color: #e0e0e0;
+      color: #161616;
+      font-weight: 600;
+      border-bottom: 1px solid #c6c6c6;
+      padding: 1rem;
+      font-size: 0.95rem;
+    }
+  }
+  .cds--data-table tbody tr {
+    &:hover {
+      background-color: #f4f4f4;
+    }
+    td {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 1rem;
+      vertical-align: middle;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .professional-info {
+    padding: 1rem;
+    
+    .info-section {
+      .section-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      
+      .add-skill-form {
+        padding: 1rem;
+        
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        
+        .form-actions {
+          flex-direction: column;
+        }
+      }
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+}
+
+.certified-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  min-width: 60px;
+  
+  &.certified-yes {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  &.certified-no {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+}
+
+.certification-link {
+  color: #0f62fe;
+  text-decoration: none;
+  font-weight: 500;
+  
+  &:hover {
+    color: #0043ce;
+    text-decoration: underline;
+  }
+}
+
+.approve-reject-actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-end;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  background: #fff;
+  z-index: 10;
+  border-top: 2px solid #f4f4f4;
+  padding-top: 2rem;
+  
+  .approve-btn {
+    min-width: 120px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .reject-btn {
+    min-width: 120px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 900px) {
+  .approve-reject-actions {
+    gap: 0.75rem;
+    .approve-btn, .reject-btn {
+      min-width: 90px;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.sticky-footer {
+  /* Remove all styles for sticky-footer to avoid conflicts */
+}
+
+.professional-info {
+  padding-bottom: 120px; // Prevent content from being hidden behind sticky footer
+}
+
+// Remove custom rejection modal styles to avoid conflicts with Carbon Modal
+.rejection-modal-overlay {}
+.rejection-modal {}
+.rejection-modal h3 {}
+.rejection-textarea {}
+.rejection-error {}
+.rejection-modal-actions {}
+
+// Yellow highlight for newly added fields
+.newly-added-field {
+  background-color: #fff3cd !important;
+  border: 1px solid #ffeaa7;
+  position: relative;
+  
+  &::before {
+    content: "NEW";
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ffc107;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 1;
+  }
+}
+
+.custom-rejection-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 30, 30, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.custom-rejection-modal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 350px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  animation: fadeInModal 0.2s;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+
+.custom-rejection-title {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  color: #d12727;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.custom-rejection-textarea {
+  width: 100%;
+  min-height: 90px;
+  border: 1.5px solid #d12727;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1.08rem;
+  margin-bottom: 0.7rem;
+  resize: vertical;
+  background: #f9f9f9;
+  transition: border 0.2s;
+}
+.custom-rejection-textarea:focus {
+  border: 2px solid #0f62fe;
+  outline: none;
+  background: #fff;
+}
+
+.custom-rejection-error {
+  color: #d12727;
+  font-size: 1.05rem;
+  margin-bottom: 0.7rem;
+  text-align: left;
+}
+
+.custom-rejection-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
