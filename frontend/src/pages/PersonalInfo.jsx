@@ -30,16 +30,16 @@ export default function ProfilePage({ onLogout }) {
     const fetchAllSkillsData = async (email, userId) => {
       try {
         // Profile (for projectExperiences, secondarySkills, ancillarySkills)
-        const profileRes = await axios.get(`http://localhost:8082/api/profile/${email}`, { withCredentials: true });
+        const profileRes = await axios.get(`https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/profile/${email}`, { withCredentials: true });
         const profileData = profileRes.data || {};
         setProjectExperiences(profileData.projectExperiences || []);
         setSecondarySkills(profileData.secondarySkills || []);
         setAncillarySkills(profileData.ancillarySkills || []);
         // Professional Certifications
-        const profCertRes = await axios.get(`http://localhost:8082/api/professional-certifications/user/${userId}`);
+        const profCertRes = await axios.get(`https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/professional-certifications/user/${userId}`);
         setProfessionalCertifications(profCertRes.data || []);
         // High Impact Assets
-        const highImpactRes = await axios.get(`http://localhost:8082/api/high-impact-assets/user/${userId}`);
+        const highImpactRes = await axios.get(`https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/high-impact-assets/user/${userId}`);
         setHighImpactAssets(highImpactRes.data || []);
       } catch (err) {
         // Optionally handle error
