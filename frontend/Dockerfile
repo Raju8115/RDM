@@ -1,22 +1,23 @@
-# Stage: Serve with Nginx
 FROM nginx:alpine
 
-# Remove default nginx HTML files
+# Remove default nginx content
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy your built files
+# Copy built React files
 COPY dist /usr/share/nginx/html
 
-# Fix permissions for OpenShift (important)
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Fix permissions for OpenShift
 RUN mkdir -p /var/cache/nginx /var/run /var/log/nginx \
     && chmod -R 777 /var/cache/nginx /var/run /var/log/nginx \
     && chown -R 1001:0 /var/cache/nginx /var/run /var/log/nginx /usr/share/nginx/html
 
-# Use non-root user for OpenShift security
+# Run as OpenShift non-root user
 USER 1001
 
-# Expose port 8080 (not 5173 — that’s only for local Vite dev)
+# Expose non-root port
 EXPOSE 8080
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
