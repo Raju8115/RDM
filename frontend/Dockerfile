@@ -4,7 +4,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy built React files
-COPY dist /usr/share/nginx/html
+COPY dist/ /usr/share/nginx/html/
 
 # Copy custom nginx config (with port 8080)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
