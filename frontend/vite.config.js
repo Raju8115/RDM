@@ -4,19 +4,20 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    exclude: ['lucide-react'], // No problem here
   },
   build: {
     rollupOptions: {
-      input: '/src/main.jsx', // Explicitly set the entry point
-    },
+      // Optional, Vite auto-detects entry point, so you could remove this line
+      input: 'src/main.jsx'
+    }
   },
   server: {
     proxy: {
       '/api': {
-      target: 'https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com', // <-- use your real backend URL
+        target: 'https://rdm-backend-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com',
         changeOrigin: true,
-        secure: false,
+        secure: false, // Allow self-signed certs
       }
     }
   }
