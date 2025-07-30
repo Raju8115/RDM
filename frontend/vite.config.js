@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Optional, Vite auto-detects entry point, so you could remove this line
-      input: 'src/main.jsx'
+      input: 'index.html'
     }
   },
   server: {
