@@ -63,12 +63,12 @@ public class UserController {
         Object principal = authentication.getPrincipal();
         System.out.println("AUTH >>> " + principal);
 
-        String email = null;
-        String name = null;
-        String slackId = null;
-        if (principal instanceof OidcUser oidcUser) {
-            email = (String) oidcUser.getClaims().get("email");
-        }
+        String email = oidcUser.getEmail();
+        String name = oidcUser.getFullName();
+        String slackId = "";
+        // if (principal instanceof OidcUser oidcUser) {
+        //     email = (String) oidcUser.getClaims().get("email");
+        // }
         if (email == null)
             return "No email found";
 
