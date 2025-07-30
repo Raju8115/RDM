@@ -53,101 +53,24 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    // @GetMapping("/user")
-    // public Object getUser(Authentication authentication) {
-    //     if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
-    //         // If not authenticated, Spring Security will handle redirect in browser
-    //         return Map.of("error", "Not authenticated");
-    //     }
-
-    //     Object principal = authentication.getPrincipal();
-    //     System.out.println("AUTH >>> " + principal);
-
-    //     String email = null;
-    //     String name = null;
-    //     String slackId = null;
-    //     if (principal instanceof OidcUser oidcUser) {
-    //         email = (String) oidcUser.getClaims().get("email");
-    //     }
-    //     if (email == null)
-    //         return "No email found";
-
-    //     // Check if user exists in DB
-    //     Optional<User> userOpt = userRepository.findByEmailIgnoreCase(email);
-    //     User user;
-    //     if (userOpt.isPresent()) {
-    //         user = userOpt.get();
-    //         logger.info("User found in DB: {}", user);
-    //     } else {
-    //         // Fetch from IBM profile API
-    //         RestTemplate restTemplate = new RestTemplate();
-    //         String url = "https://w3-unified-profile-api.ibm.com/v3/profiles/" + email + "/profile";
-    //         try {
-    //             Map<?, ?> ibmProfile = restTemplate.getForObject(url, Map.class);
-    //             Map<?, ?> content = (Map<?, ?>) ibmProfile.get("content");
-    //             if (content != null) {
-    //                 Object nameObj = content.get("nameDisplay");
-    //                 Object slackObj = content.get("preferredSlackUsername");
-    //                 name = nameObj != null ? (String) nameObj : "";
-    //                 slackId = slackObj != null ? (String) slackObj : "";
-    //             } else {
-    //                 name = "";
-    //                 slackId = "";
-    //             }
-    //         } catch (Exception e) {
-    //             System.err.println("Failed to fetch IBM profile: " + e.getMessage());
-    //             name = "";
-    //             slackId = "";
-    //         }
-    //         user = new User();
-    //         user.setEmail(email);
-    //         user.setName(name);
-    //         user.setSlackId(slackId);
-    //         logger.info("Creating new user: {}", user);
-    //         userRepository.save(user);
-    //         logger.info("User saved to DB: {}", user);
-    //         // Fetch a default practice_area and product_technology for valid foreign keys
-    //         UserSkill defaultSkill = new UserSkill();
-    //         defaultSkill.setUserId(user.getId());
-    //         defaultSkill.setPracticeId(null);
-    //         defaultSkill.setPracticeAreaId(null);
-    //         defaultSkill.setPracticeProductTechnologyId(null);
-    //         defaultSkill.setProjectsDone("");
-    //         defaultSkill.setSelfAssessmentLevel("");
-    //         defaultSkill.setProfessionalLevel("");
-    //         userService.saveUserSkill(defaultSkill);
-    //         logger.info("Default primary skill created for new user: {}", defaultSkill);
-    //         // Create a default user_skill_info row
-    //         UserSkillInfo defaultSkillInfo = new UserSkillInfo();
-    //         defaultSkillInfo.setUserId(user.getId());
-    //         defaultSkillInfo.setUserSkillId(defaultSkill.getId());
-    //         defaultSkillInfo.setProjectTitle("");
-    //         defaultSkillInfo.setTechnologiesUsed("");
-    //         defaultSkillInfo.setDuration("");
-    //         defaultSkillInfo.setResponsibilities("");
-    //         userService.saveUserSkillInfo(defaultSkillInfo);
-    //         logger.info("Default user_skill_info created for new user: {}", defaultSkillInfo);
-    //     }
-    //     return Map.of(
-    //             "id", user.getId(),
-    //             "email", user.getEmail(),
-    //             "name", user.getName(),
-    //             "slackId", user.getSlackId());
-    // }
-
-@GetMapping("/user")
+    @GetMapping("/user")
     public Object getUser(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
+            // If not authenticated, Spring Security will handle redirect in browser
             return Map.of("error", "Not authenticated");
         }
-    
-        String email = (String) oidcUser.getClaims().get("email");
-        String name = (String) oidcUser.getClaims().get("name");
-        String slackId = "";
-    
-        if (email == null) {
-            return "No email found";
+
+        Object principal = authentication.getPrincipal();
+        System.out.println("AUTH >>> " + principal);
+
+        String email = null;
+        String name = null;
+        String slackId = null;
+        if (principal instanceof OidcUser oidcUser) {
+            email = (String) oidcUser.getClaims().get("email");
         }
+        if (email == null)
+            return "No email found";
 
         // Check if user exists in DB
         Optional<User> userOpt = userRepository.findByEmailIgnoreCase(email);
@@ -211,6 +134,83 @@ public class UserController {
                 "name", user.getName(),
                 "slackId", user.getSlackId());
     }
+
+// @GetMapping("/user")
+//     public Object getUser(Authentication authentication) {
+//         if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
+//             return Map.of("error", "Not authenticated");
+//         }
+    
+//         String email = (String) oidcUser.getClaims().get("email");
+//         String name = (String) oidcUser.getClaims().get("name");
+//         String slackId = "";
+    
+//         if (email == null) {
+//             return "No email found";
+//         }
+
+//         // Check if user exists in DB
+//         Optional<User> userOpt = userRepository.findByEmailIgnoreCase(email);
+//         User user;
+//         if (userOpt.isPresent()) {
+//             user = userOpt.get();
+//             logger.info("User found in DB: {}", user);
+//         } else {
+//             // Fetch from IBM profile API
+//             RestTemplate restTemplate = new RestTemplate();
+//             String url = "https://w3-unified-profile-api.ibm.com/v3/profiles/" + email + "/profile";
+//             try {
+//                 Map<?, ?> ibmProfile = restTemplate.getForObject(url, Map.class);
+//                 Map<?, ?> content = (Map<?, ?>) ibmProfile.get("content");
+//                 if (content != null) {
+//                     Object nameObj = content.get("nameDisplay");
+//                     Object slackObj = content.get("preferredSlackUsername");
+//                     name = nameObj != null ? (String) nameObj : "";
+//                     slackId = slackObj != null ? (String) slackObj : "";
+//                 } else {
+//                     name = "";
+//                     slackId = "";
+//                 }
+//             } catch (Exception e) {
+//                 System.err.println("Failed to fetch IBM profile: " + e.getMessage());
+//                 name = "";
+//                 slackId = "";
+//             }
+//             user = new User();
+//             user.setEmail(email);
+//             user.setName(name);
+//             user.setSlackId(slackId);
+//             logger.info("Creating new user: {}", user);
+//             userRepository.save(user);
+//             logger.info("User saved to DB: {}", user);
+//             // Fetch a default practice_area and product_technology for valid foreign keys
+//             UserSkill defaultSkill = new UserSkill();
+//             defaultSkill.setUserId(user.getId());
+//             defaultSkill.setPracticeId(null);
+//             defaultSkill.setPracticeAreaId(null);
+//             defaultSkill.setPracticeProductTechnologyId(null);
+//             defaultSkill.setProjectsDone("");
+//             defaultSkill.setSelfAssessmentLevel("");
+//             defaultSkill.setProfessionalLevel("");
+//             userService.saveUserSkill(defaultSkill);
+//             logger.info("Default primary skill created for new user: {}", defaultSkill);
+//             // Create a default user_skill_info row
+//             UserSkillInfo defaultSkillInfo = new UserSkillInfo();
+//             defaultSkillInfo.setUserId(user.getId());
+//             defaultSkillInfo.setUserSkillId(defaultSkill.getId());
+//             defaultSkillInfo.setProjectTitle("");
+//             defaultSkillInfo.setTechnologiesUsed("");
+//             defaultSkillInfo.setDuration("");
+//             defaultSkillInfo.setResponsibilities("");
+//             userService.saveUserSkillInfo(defaultSkillInfo);
+//             logger.info("Default user_skill_info created for new user: {}", defaultSkillInfo);
+//         }
+//         return Map.of(
+//                 "id", user.getId(),
+//                 "email", user.getEmail(),
+//                 "name", user.getName(),
+//                 "slackId", user.getSlackId());
+//     }
 
 
 
