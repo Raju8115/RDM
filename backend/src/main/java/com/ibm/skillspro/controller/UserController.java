@@ -138,8 +138,7 @@ public class UserController {
 @GetMapping("/user")
     public Object getUser(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
-            response.sendRedirect("/oauth2/authorization/appid");
-            return null; // Browser will redirect
+            return Map.of("error", "Not authenticated");
         }
     
         String email = (String) oidcUser.getClaims().get("email");
