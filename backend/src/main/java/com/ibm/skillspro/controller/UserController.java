@@ -55,8 +55,10 @@ public class UserController {
 
     @GetMapping("/user")
     public Object getUser(Authentication authentication) {
-        if (authentication == null)
-            return "Not authenticated";
+        if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
+            // If not authenticated, Spring Security will handle redirect in browser
+            return Map.of("error", "Not authenticated");
+        }
 
         Object principal = authentication.getPrincipal();
         System.out.println("AUTH >>> " + principal);
