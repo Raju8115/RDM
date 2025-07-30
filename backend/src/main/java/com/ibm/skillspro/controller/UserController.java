@@ -135,54 +135,91 @@ public class UserController {
     //             "slackId", user.getSlackId());
     // }
 
-    @GetMapping("/user")
-    public Object getUser(Authentication authentication, HttpServletRequest request) {
-        if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
-            // If not authenticated, Spring Security will handle redirect in browser
-            return Map.of("error", "Not authenticated");
-        }
-
-        String email = oidcUser.getEmail();
-        String name = oidcUser.getFullName();
-        String slackId = "";
-
-        if (email == null) {
-            return Map.of("error", "No email found");
-        }
-
-        // Look up in DB
-        Optional<User> userOpt = userRepository.findByEmailIgnoreCase(email);
-        User user;
-        if (userOpt.isPresent()) {
-            user = userOpt.get();
-            logger.info("User found in DB: {}", user);
-        } else {
-            logger.info("Creating new user for email: {}", email);
-            user = new User();
-            user.setEmail(email);
-            user.setName(name);
-            user.setSlackId(slackId);
-            userRepository.save(user);
-
-            // Create default skill record
-            UserSkill defaultSkill = new UserSkill();
-            defaultSkill.setUserId(user.getId());
-            userService.saveUserSkill(defaultSkill);
-
-            // Create default skill info
-            UserSkillInfo defaultSkillInfo = new UserSkillInfo();
-            defaultSkillInfo.setUserId(user.getId());
-            defaultSkillInfo.setUserSkillId(defaultSkill.getId());
-            userService.saveUserSkillInfo(defaultSkillInfo);
-        }
-
-        return Map.of(
-                "id", user.getId(),
-                "email", user.getEmail(),
-                "name", user.getName(),
-                "slackId", user.getSlackId()
-        );
+@GetMapping("/user")
+public Object getUser(Authentication authentication, HttpServletResponse response) throws IOException {
+    // If not logged in → redirect to OAuth2 login
+    if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
+        response.sendRedirect("/oauth2/authorization/appid");
+        return null; // Browser will redirect
     }
+
+    String email = oidcUser.getEmail();
+    String name = oidcUser.getFullName();
+    String slackId = "";
+
+    if (email == null) {
+        return Map.of("error", "No email found");
+    }
+
+    // If name not present in token → try IBM Unified Profile API
+    if (name == null || name.isBlank()) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "https://w3-unified-profile-api.ibm.com/v3/profiles/" + email + "/profile";
+            Map<?, ?> ibmProfile = restTemplate.getForObject(url, Map.class);
+
+            if (ibmProfile != null && ibmProfile.containsKey("content")) {
+                Map<?, ?> content = (Map<?, ?>) ibmProfile.get("content");
+                if (content != null) {
+                    Object nameObj = content.get("nameDisplay");
+                    Object slackObj = content.get("preferredSlackUsername");
+                    if (nameObj != null) name = nameObj.toString();
+                    if (slackObj != null) slackId = slackObj.toString();
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to fetch IBM profile: " + e.getMessage());
+        }
+    }
+
+    // Lookup in DB
+    Optional<User> userOpt = userRepository.findByEmailIgnoreCase(email);
+    User user;
+    if (userOpt.isPresent()) {
+        user = userOpt.get();
+        logger.info("User found in DB: {}", user);
+    } else {
+        // Create new user
+        user = new User();
+        user.setEmail(email);
+        user.setName(name != null ? name : "");
+        user.setSlackId(slackId);
+        userRepository.save(user);
+        logger.info("Created new user: {}", user);
+
+        // Create default UserSkill
+        UserSkill defaultSkill = new UserSkill();
+        defaultSkill.setUserId(user.getId());
+        defaultSkill.setPracticeId(null);
+        defaultSkill.setPracticeAreaId(null);
+        defaultSkill.setPracticeProductTechnologyId(null);
+        defaultSkill.setProjectsDone("");
+        defaultSkill.setSelfAssessmentLevel("");
+        defaultSkill.setProfessionalLevel("");
+        userService.saveUserSkill(defaultSkill);
+
+        // Create default UserSkillInfo
+        UserSkillInfo defaultSkillInfo = new UserSkillInfo();
+        defaultSkillInfo.setUserId(user.getId());
+        defaultSkillInfo.setUserSkillId(defaultSkill.getId());
+        defaultSkillInfo.setProjectTitle("");
+        defaultSkillInfo.setTechnologiesUsed("");
+        defaultSkillInfo.setDuration("");
+        defaultSkillInfo.setResponsibilities("");
+        userService.saveUserSkillInfo(defaultSkillInfo);
+
+        logger.info("Default skills created for new user: {}", defaultSkill);
+    }
+
+    // Return user info
+    return Map.of(
+            "id", user.getId(),
+            "email", user.getEmail(),
+            "name", user.getName(),
+            "slackId", user.getSlackId()
+    );
+}
+
 
 
     @GetMapping("/userinfo")
