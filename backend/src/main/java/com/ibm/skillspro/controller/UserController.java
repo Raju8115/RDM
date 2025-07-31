@@ -55,20 +55,18 @@ public class UserController {
 
     @GetMapping("/user")
     public Object getUser(Authentication authentication) {
-        if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
-            // If not authenticated, Spring Security will handle redirect in browser
-            return Map.of("error", "Not authenticated");
-        }
+        if (authentication == null)
+            return "Not authenticated";
 
         Object principal = authentication.getPrincipal();
         System.out.println("AUTH >>> " + principal);
 
-        String email = oidcUser.getEmail();
-        String name = oidcUser.getFullName();
-        String slackId = "";
-        // if (principal instanceof OidcUser oidcUser) {
-        //     email = (String) oidcUser.getClaims().get("email");
-        // }
+        String email = null;
+        String name = null;
+        String slackId = null;
+        if (principal instanceof OidcUser oidcUser) {
+            email = (String) oidcUser.getClaims().get("email");
+        }
         if (email == null)
             return "No email found";
 
@@ -134,7 +132,6 @@ public class UserController {
                 "name", user.getName(),
                 "slackId", user.getSlackId());
     }
-
 // @GetMapping("/user")
 //     public Object getUser(Authentication authentication) {
 //         if (authentication == null || !(authentication.getPrincipal() instanceof OidcUser oidcUser)) {
