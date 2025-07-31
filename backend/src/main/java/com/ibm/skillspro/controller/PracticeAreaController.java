@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/practice-areas")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com")
 public class PracticeAreaController {
     @Autowired
     private PracticeAreaService practiceAreaService;
