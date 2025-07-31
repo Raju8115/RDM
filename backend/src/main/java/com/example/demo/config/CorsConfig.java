@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173") // your React app URL
+                        .allowedOrigins("http://localhost:5173", "https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com") // your React app URL
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowCredentials(true);
             }
