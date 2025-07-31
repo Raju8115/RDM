@@ -44,7 +44,7 @@ const PendingApprovals: React.FC<PendingApprovalsProps> = ({ onPreviewUser, setP
     const fetchApprovals = async () => {
       setLoading(true);
       try {
-        console.log('Fetching pending approvals from:', 'http://localhost:8083/api/pending-approvals');
+        console.log('Fetching pending approvals from:', 'https://rdm-backend-3-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/pending-approvals');
         const res = await pendingApprovalApi.getAll();
         console.log('Received approvals response:', res);
         console.log('Approvals data:', res.data);
