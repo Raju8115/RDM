@@ -69,6 +69,7 @@ useEffect(() => {
       fetch(`https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/profiles/${email}/profile`, { credentials: 'include' })
         .then(res => res.json())
         .then(profile => {
+          console.log(profile)
           const isManager = profile?.employeeType?.isManager === true;
           sessionStorage.setItem('isManager', isManager ? 'true' : 'false');
           
