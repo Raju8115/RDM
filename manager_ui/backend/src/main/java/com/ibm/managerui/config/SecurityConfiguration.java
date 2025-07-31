@@ -13,10 +13,10 @@ public class SecurityConfiguration {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:5173");
-        configuration.addAllowedOrigin("http://localhost:5174");
-        configuration.addAllowedOrigin("https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com");
-        configuration.addAllowedOrigin("https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com");
+        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("http://localhost:5174");
+        config.addAllowedOrigin("https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com");
+        config.addAllowedOrigin("https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com");
 
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
