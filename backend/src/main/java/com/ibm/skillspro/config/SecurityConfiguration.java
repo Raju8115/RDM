@@ -27,9 +27,9 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults()) // Enable CORS
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("http://localhost:5173/personal-info", true) // <--- Redirect to React frontend
+                        .defaultSuccessUrl("https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/personal-info", true) // <--- Redirect to React frontend
                 )
-                .logout(logout -> logout.logoutSuccessUrl("http://localhost:5173"));
+                .logout(logout -> logout.logoutSuccessUrl("https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com"));
 
         return http.build();
     }
@@ -38,7 +38,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174")); // Allow both React apps
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174", "https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com")); // Allow both React apps
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-XSRF-TOKEN"));
         configuration.setAllowCredentials(true); // Allow cookies (e.g. JSESSIONID)
