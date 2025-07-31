@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 public class ProfessionalInfoService {
     private static final Logger logger = LoggerFactory.getLogger(ProfessionalInfoService.class);
-    private final String USER_PROFILE_API = "http://localhost:8082/api/profile/";
+    private final String USER_PROFILE_API = "https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/profile/";
 
     @Autowired
     private RestTemplate restTemplate;
