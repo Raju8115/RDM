@@ -8,7 +8,7 @@ import com.ibm.skillspro.model.PracticeProductTechnology;
 
 @RestController
 @RequestMapping("/api/practice-product-technology")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com")
 public class PracticeProductTechnologyController {
 
     private final PracticeProductTechnologyService productService;
