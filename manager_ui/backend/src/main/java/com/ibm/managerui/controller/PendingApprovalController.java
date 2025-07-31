@@ -160,7 +160,7 @@ public class PendingApprovalController {
             ManagerUserApproval approval = approvalOpt.get();
             
             // Fetch highlightFields and removedProductCertifications from digital_rdm-demoproject backend
-            String url = "http://localhost:8082/api/manager-approvals/" + id;
+            String url = "https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/manager-approvals/" + id;
             RestTemplate restTemplate = new RestTemplate();
             HashMap<String, Object> remoteApproval = null;
             try {
@@ -273,7 +273,7 @@ public class PendingApprovalController {
     private void sendRejectionMessageToUser(String userEmail, String rejectionReason, String managerEmail) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:8082/api/user-messages";
+            String url = "https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/user-messages";
             
             // Create rejection message
             Map<String, Object> rejectionMessage = new HashMap<>();
