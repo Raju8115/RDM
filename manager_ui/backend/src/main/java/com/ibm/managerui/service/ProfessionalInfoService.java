@@ -25,7 +25,7 @@ public class ProfessionalInfoService {
             Map profileMap = restTemplate.getForObject(USER_PROFILE_API + email, Map.class);
             logger.info("Fetched profile map: {}", profileMap);
             // Fetch practices for mapping
-            Object practicesObj = restTemplate.getForObject("http://localhost:8082/api/practices", Object.class);
+            Object practicesObj = restTemplate.getForObject("https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/practices", Object.class);
             java.util.List<?> practices = (java.util.List<?>) practicesObj;
             // Helper lambdas for mapping
             java.util.function.Function<Object, String> getPracticeName = (id) -> {
