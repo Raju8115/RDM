@@ -99,7 +99,7 @@ useEffect(() => {
     console.log('[DEBUG] Redirect check:', { storedEmail, isManager });
     if (storedEmail && isManager === 'true') {
         // Redirect to manager_ui (frontend 5174, backend 8083)
-        window.location.href = `http://localhost:5174/?email=${encodeURIComponent(storedEmail)}`;
+        window.location.href = `https://rdm-frontend-4-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/?email=${encodeURIComponent(storedEmail)}`;
     } else if (storedEmail && isManager === 'false') {
       // Only redirect if on root or login
       if (location.pathname === '/' || location.pathname === '/login') {
