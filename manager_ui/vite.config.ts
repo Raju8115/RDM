@@ -16,7 +16,7 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/api': {
-        target: 'http://localhost:8083',
+        target: 'https://rdm-backend-3-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com',
         changeOrigin: true,
         secure: false,
       }
