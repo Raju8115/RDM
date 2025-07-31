@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/user-messages")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174", "https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com"})
 public class UserMessageController {
     
     private static final Logger logger = LoggerFactory.getLogger(UserMessageController.class);
