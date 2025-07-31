@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8083/api';
+const BASE_URL = 'https://rdm-backend-3-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api';
 
 /**
  * @typedef {Object} PendingApprovalApi
