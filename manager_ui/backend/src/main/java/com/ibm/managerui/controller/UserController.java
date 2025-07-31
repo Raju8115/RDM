@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://rdm-frontend-2-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping("/badges/by-email/{email}")
     public ResponseEntity<Object> getBadgesByEmail(@PathVariable String email) {
-        String url = "http://localhost:8082/api/user-credentials/by-email/" + email;
+        String url = "https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/user-credentials/by-email/" + email;
         RestTemplate restTemplate = new RestTemplate();
         try {
             logger.info("Fetching badges for email: {} from {}", email, url);
