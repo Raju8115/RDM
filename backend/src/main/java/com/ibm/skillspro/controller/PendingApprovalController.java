@@ -75,7 +75,7 @@ public class PendingApprovalController {
     private void syncToManagerUI(com.ibm.skillspro.entity.ManagerUserApproval approval) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:8083/api/pending-approvals";
+            String url = "https://rdm-backend-3-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/pending-approvals/api/pending-approvals";
             
             // Create a Map with the approval data to avoid entity type mismatch
             Map<String, Object> approvalData = new HashMap<>();
