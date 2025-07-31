@@ -752,6 +752,7 @@ public class UserController {
                         // If IBM profile fetch fails, set isManager: false
                         Map<String, Object> employeeType = new HashMap<>();
                         employeeType.put("isManager", false);
+                        result.put("Exception", e);
                         result.put("employeeType", employeeType);
                     }
                     return ResponseEntity.ok(result);
