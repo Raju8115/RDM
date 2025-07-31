@@ -61,36 +61,49 @@ useEffect(() => {
   }, [user]);
 
   // Fetch isManager and set in sessionStorage, then set isManagerLoaded
-  useEffect(() => {
-    if (user && user.email) {
-      sessionStorage.setItem('userEmail', user.email);
-      // Always use email for /profiles/{email}/profile
-      const email = user.email;
-      fetch(`https://rdm-backend-1-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com/api/profiles/${email}/profile`, { credentials: 'include' })
-        .then(res => res.json())
-        .then(profile => {
-          console.log(profile)
-          const isManager = profile?.employeeType?.isManager === true;
-          sessionStorage.setItem('isManager', isManager ? 'true' : 'false');
-          
-          // Store functionalManager.preferredIdentity in session storage
-          if (profile?.functionalManager?.preferredIdentity) {
-            sessionStorage.setItem('functionalManagerEmail', profile.functionalManager.preferredIdentity);
-            console.log('Stored functionalManagerEmail in session storage:', profile.functionalManager.preferredIdentity);
-            console.log('Full functionalManager data:', profile.functionalManager);
-          } else {
-            console.warn('No functionalManager data found in profile:', profile);
-          }
-          
-          setIsManagerLoaded(true);
-        })
-        .catch((err) => {
-          console.log('[DEBUG] Profile fetch failed, setting isManager to false:', err);
-          sessionStorage.setItem('isManager', 'false');
-          setIsManagerLoaded(true);
-        });
-    }
-  }, [user]);
+useEffect(() => {
+    if (!user || !user.email) return;
+
+    const email = user.email;
+    sessionStorage.setItem("userEmail", email);
+
+    // Call W3 Unified Profile API directly from frontend
+    fetch(`https://w3-unified-profile-api.ibm.com/v3/profiles/${email}/profile`, {
+      credentials: "include", // Include cookies for W3 login session
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`W3 API returned ${res.status}`);
+        }
+        const profile = await res.json();
+        console.log("W3 Profile Data:", profile);
+
+        // Determine if user is manager
+        const isManager = profile?.content?.employeeType?.isManager === true;
+        sessionStorage.setItem("isManager", isManager ? "true" : "false");
+
+        // Store functional manager email
+        if (profile?.content?.functionalManager?.preferredIdentity) {
+          sessionStorage.setItem(
+            "functionalManagerEmail",
+            profile.content.functionalManager.preferredIdentity
+          );
+          console.log(
+            "Stored functionalManagerEmail:",
+            profile.content.functionalManager.preferredIdentity
+          );
+        } else {
+          console.warn("No functional manager data found");
+        }
+
+        setIsManagerLoaded(true);
+      })
+      .catch((err) => {
+        console.error("[DEBUG] W3 profile fetch failed:", err);
+        sessionStorage.setItem("isManager", "false");
+        setIsManagerLoaded(true);
+      });
+  }, [user, setIsManagerLoaded]);
 
   // Redirect to personal-info or manager-ui after successful login, only after isManagerLoaded
   useEffect(() => {
